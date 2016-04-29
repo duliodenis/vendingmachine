@@ -41,7 +41,7 @@ protocol ItemType {
 }
 
 
-// MARK: - Vending Selection Enum
+// MARK: - Concrete Vending Selection Enum
 // The enum encapsulating the various selection options in a vending machine
 
 enum VendingSelection {
@@ -57,4 +57,39 @@ enum VendingSelection {
     case FruitJuice
     case SportsDrink
     case Gum
+}
+
+
+// MARK: - Vending Item Struct
+// The Object to represent a Vending Item which conforms to the ItemType Protocol
+
+struct VendingItem: ItemType {
+    let price: Double
+    var quantity: Double
+}
+
+
+// MARK: - Vending Machine Class
+// The concrete implementation of a Vending Machine conforming to the VendingMachineType Protocol
+// This works best as a class that models state and we can maintain a reference to the values
+
+class VendingMachine: VendingMachineType {
+    
+    var selection: [VendingSelection] = [.Soda, .DietSoda, .Chips, .Cookie, .Sandwich, .Wrap, .CandyBar, .PopTart, .Water, .FruitJuice, .SportsDrink, .Gum]
+    
+    var inventory: [VendingSelection: ItemType]
+    
+    var amountDeposited: Double = 10.0
+    
+    required init(inventory: [VendingSelection : ItemType]) {
+        self.inventory = inventory
+    }
+    
+    func vend(selection: VendingSelection, quantity: Double) throws {
+        // TODO
+    }
+    
+    func deposit() {
+        // TODO
+    }
 }
