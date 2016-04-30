@@ -21,6 +21,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     // Vending Machine Stored Property using the type of the protocol that defines Vending Machines
     let vendingMachine: VendingMachineType
     
+    // the current selection (optional)
+    var currentSelection: VendingSelection?
+    
+    // the quantity to purchase
+    var quantity: Double = 1.0
+    
     required init?(coder aDecoder: NSCoder) {
         // encapsulate the vending machine inside a do catch statement since initializing may throw errors
         do {
@@ -75,7 +81,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         updateCellBackgroundColor(indexPath, selected: true)
-        
+        currentSelection = vendingMachine.selection[indexPath.row]
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -97,5 +103,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     // MARK: - Helper Methods
+    
+    @IBAction func purchase() {
+        if let pickedSelection = currentSelection {
+            do {
+                try vendingMachine.vend(pickedSelection, quantity: quantity)
+            } catch {
+                // FIXME: Error Handling Code.
+            }
+        } else {
+            // FIXME: Alert user to no selection.
+        }
+        
+    }
+    
 }
 
