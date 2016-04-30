@@ -46,6 +46,7 @@ protocol ItemType {
 enum InventoryError: ErrorType {
     case InvalidResource
     case ConversionError
+    case InvalidKey
 }
 
 
@@ -70,10 +71,33 @@ class PlistConverter {
 }
 
 
+class InventoryUnarchiver {
+    
+    class func vendingInventoryFromDictionary(dictionary: [String : AnyObject]) throws -> [VendingSelection : ItemType] {
+        var inventory: [VendingSelection:ItemType] = [ : ] // variable initialized to an empty dictionary
+        
+        for (key, value) in dictionary {
+            if let itemDictionary = value as? [String :  Double],
+            let price = itemDictionary["price"],
+            let quantity = itemDictionary["quantity"] {
+                let item = VendingItem(price: price, quantity: quantity)
+                guard let matchedKey = VendingSelection(rawValue: key) else {
+                    throw InventoryError.InvalidKey
+                }
+                
+                inventory.updateValue(item, forKey: matchedKey)
+            }
+        }
+        
+        return inventory
+    }
+}
+
+
 // MARK: - Concrete Vending Selection Enum
 // The enum encapsulating the various selection options in a vending machine
 
-enum VendingSelection {
+enum VendingSelection: String {
     case Soda
     case DietSoda
     case Chips
