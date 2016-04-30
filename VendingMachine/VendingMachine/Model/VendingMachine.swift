@@ -28,6 +28,8 @@ protocol VendingMachineType {
     func vend(selection: VendingSelection, quantity: Double) throws
     // add cash to the vending machine
     func deposit()
+    // convenience function to return the correct item or nil
+    func itemForCurrentSelection(selection: VendingSelection) -> ItemType?
 }
 
 // MARK: - Item Type Protocol
@@ -175,6 +177,14 @@ class VendingMachine: VendingMachineType {
             throw VendingMachineError.InsufficientFunds(required: amountRequired)
         }
     }
+    
+    
+    // convenience method to return the correct item or nil
+    
+    func itemForCurrentSelection(selection: VendingSelection) -> ItemType? {
+        return inventory[selection]
+    }
+    
     
     func deposit() {
         // TODO

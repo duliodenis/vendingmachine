@@ -44,7 +44,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setupCollectionViewCells()
-        print(vendingMachine.inventory)
+        balanceLabel.text = "$ \(vendingMachine.amountDeposited)"
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,6 +82,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         updateCellBackgroundColor(indexPath, selected: true)
         currentSelection = vendingMachine.selection[indexPath.row]
+        
+        if let pickedSelection = currentSelection,
+        let item = vendingMachine.itemForCurrentSelection(pickedSelection) {
+            totalLabel.text = "$ \(item.price)"
+        }
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -108,6 +113,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if let pickedSelection = currentSelection {
             do {
                 try vendingMachine.vend(pickedSelection, quantity: quantity)
+                balanceLabel.text = "$ \(vendingMachine.amountDeposited)"
             } catch {
                 // FIXME: Error Handling Code.
             }
