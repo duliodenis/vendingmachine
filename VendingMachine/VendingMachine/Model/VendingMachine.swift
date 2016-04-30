@@ -41,6 +41,35 @@ protocol ItemType {
 }
 
 
+// MARK: - Error Types
+
+enum InventoryError: ErrorType {
+    case InvalidResource
+    case ConversionError
+}
+
+
+// MARK: - Helper Classes
+
+class PlistConverter {
+    
+    // class or type method
+    class func dictionaryFromFile(name: String, ofType type: String) throws -> [String:AnyObject] {
+        guard let path = NSBundle.mainBundle().pathForResource(name, ofType: type) else {
+            throw InventoryError.InvalidResource
+        }
+        
+        guard let dictionary = NSDictionary(contentsOfFile: path),
+            let castedDictionary = dictionary as? [String:AnyObject]
+        else {
+            throw InventoryError.ConversionError
+        }
+        
+        return castedDictionary
+    }
+}
+
+
 // MARK: - Concrete Vending Selection Enum
 // The enum encapsulating the various selection options in a vending machine
 
@@ -64,7 +93,7 @@ enum VendingSelection {
 // The Object to represent a Vending Item which conforms to the ItemType Protocol
 
 struct VendingItem: ItemType {
-    let price: Double
+    var price: Double
     var quantity: Double
 }
 
