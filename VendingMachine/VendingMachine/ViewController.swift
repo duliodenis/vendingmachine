@@ -66,6 +66,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! VendingItemCell
         
+        // display the item's icon by assigning to the CollectionView's custom cell's iconView
+        let item = vendingMachine.selection[indexPath.row]
+        cell.iconView.image = item.icon()
+        
         return cell
     }
     

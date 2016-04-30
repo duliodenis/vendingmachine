@@ -6,7 +6,7 @@
 //  Copyright © 2016 Dulio Denis. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // MARK: - Vending Machine Protocol
 // Protocol defining requirements for what a Vending Machine could be
@@ -110,6 +110,13 @@ enum VendingSelection: String {
     case FruitJuice
     case SportsDrink
     case Gum
+    
+    func icon() -> UIImage {
+        if let image = UIImage(named: self.rawValue) {
+            return image
+        }
+        return UIImage(named: "Default")!
+    }
 }
 
 
