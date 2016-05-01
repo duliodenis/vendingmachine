@@ -27,7 +27,7 @@ protocol VendingMachineType {
     // so we'll need to create a throwing function
     func vend(selection: VendingSelection, quantity: Double) throws
     // add cash to the vending machine
-    func deposit()
+    func deposit(amount: Double)
     // convenience function to return the correct item or nil
     func itemForCurrentSelection(selection: VendingSelection) -> ItemType?
 }
@@ -186,7 +186,7 @@ class VendingMachine: VendingMachineType {
     }
     
     
-    func deposit() {
-        // TODO
+    func deposit(amount: Double) {
+        amountDeposited += amount
     }
 }

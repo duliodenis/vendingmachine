@@ -79,8 +79,8 @@
 		6C38F6B81CD3FA8900876DCD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				97EC97B21C4E9CA90081754A /* VendingInventory.plist */,
 				6C38F6B91CD3FAC400876DCD /* VendingMachine.swift */,
+				97EC97B21C4E9CA90081754A /* VendingInventory.plist */,
 			);
 			name = Model;
 			sourceTree = "<group>";

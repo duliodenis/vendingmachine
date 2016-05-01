@@ -2,7 +2,7 @@
 
 An iOS 9 / Swift 2 Vending Machine App that models a vending machine in the real world.
 
-![](art/screenshot/vendingmachine03.gif?raw=true)
+![](art/screenshot/vendingmachine04.gif?raw=true)
 
 ## Contributing
 
