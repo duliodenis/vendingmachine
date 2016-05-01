@@ -17,6 +17,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var balanceLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var stepper: UIStepper!
     
     // Vending Machine Stored Property using the type of the protocol that defines Vending Machines
     let vendingMachine: VendingMachineType
@@ -26,6 +27,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // the quantity to purchase
     var quantity: Double = 1.0
+    
     
     required init?(coder aDecoder: NSCoder) {
         // encapsulate the vending machine inside a do catch statement since initializing may throw errors
@@ -40,17 +42,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.init(coder: aDecoder)
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         setupCollectionViewCells()
-        balanceLabel.text = "$ \(vendingMachine.amountDeposited)"
+        setupViews()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func setupViews() {
+        updateQuantityLabel()
+        updateBalanceLabel()
     }
+    
     
     // MARK: - UICollectionView 
 
@@ -81,12 +85,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         updateCellBackgroundColor(indexPath, selected: true)
+        
+        resetLabels()
         currentSelection = vendingMachine.selection[indexPath.row]
         
-        if let pickedSelection = currentSelection,
-        let item = vendingMachine.itemForCurrentSelection(pickedSelection) {
-            totalLabel.text = "$ \(item.price)"
-        }
+        updateTotalPriceLabel()
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -107,21 +110,54 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    
     // MARK: - Helper Methods
     
     @IBAction func purchase() {
         if let pickedSelection = currentSelection {
             do {
                 try vendingMachine.vend(pickedSelection, quantity: quantity)
-                balanceLabel.text = "$ \(vendingMachine.amountDeposited)"
+                updateBalanceLabel()
+                resetLabels()
             } catch {
                 // FIXME: Error Handling Code.
             }
         } else {
             // FIXME: Alert user to no selection.
         }
-        
     }
     
+    
+    @IBAction func updateQuantity(sender: UIStepper) {
+        quantity = sender.value
+        updateTotalPriceLabel()
+        updateQuantityLabel()
+    }
+    
+    
+    func updateTotalPriceLabel() {
+        if let pickedSelection = currentSelection,
+            let item = vendingMachine.itemForCurrentSelection(pickedSelection) {
+                totalLabel.text = "$ \(item.price * quantity)"
+        }
+    }
+    
+    
+    func updateQuantityLabel() {
+        quantityLabel.text = "\(quantity)"
+    }
+    
+    
+    func updateBalanceLabel() {
+        balanceLabel.text = "$ \(vendingMachine.amountDeposited)"
+    }
+    
+    
+    func resetLabels() {
+        quantity = 1
+        stepper.value = 1
+        updateTotalPriceLabel()
+        updateQuantityLabel()
+    }
 }
 

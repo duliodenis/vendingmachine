@@ -124,9 +124,12 @@
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="xsJ-mF-Vul">
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="xsJ-mF-Vul">
                                                 <rect key="frame" x="472" y="13" width="94" height="29"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <connections>
+                                                    <action selector="updateQuantity:" destination="BYZ-38-t0r" eventType="valueChanged" id="Voi-Yk-g8n"/>
+                                                </connections>
                                             </stepper>
                                         </subviews>
                                         <color key="backgroundColor" red="0.11764705882352941" green="0.14117647058823529" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
@@ -172,6 +175,7 @@
                         <outlet property="balanceLabel" destination="T4d-xZ-BoX" id="teE-Tl-Pi0"/>
                         <outlet property="collectionView" destination="8OG-jm-3JZ" id="40h-Bj-3fx"/>
                         <outlet property="quantityLabel" destination="ehp-um-cli" id="sOx-UY-fe6"/>
+                        <outlet property="stepper" destination="xsJ-mF-Vul" id="A7R-2c-XuL"/>
                         <outlet property="totalLabel" destination="eqM-sa-SEQ" id="SC7-N0-w1h"/>
                     </connections>
                 </viewController>
